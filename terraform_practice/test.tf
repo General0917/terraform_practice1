@@ -185,12 +185,21 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
 }
 */
 
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.35.0"
+    }
+  }
+}
+
+
 provider "azurerm" {
-  version = "~>2.0"
-  subscription_id = "6a60c70e-2ca6-4c65-8975-8347e0253832"
-  client_id       = "55a657ea-2c84-41d4-9ff4-15e42e3b4ce9"
-  client_secret   = "u3dSW5u~mjzpBJ.nqbKrLoH7qlguMEHK-K"
-  tenant_id       = "eb841947-5529-4ebe-b235-eace4f40fc2c"
+#   subscription_id = "6a60c70e-2ca6-4c65-8975-8347e0253832"
+#   client_id       = "55a657ea-2c84-41d4-9ff4-15e42e3b4ce9"
+#   client_secret   = "u3dSW5u~mjzpBJ.nqbKrLoH7qlguMEHK-K"
+#   tenant_id       = "eb841947-5529-4ebe-b235-eace4f40fc2c"
   features {}
 }
 
@@ -288,7 +297,7 @@ resource "azurerm_network_interface" "myterraformnic" {
     ip_configuration {
         name                          = "myNicConfiguration"
         subnet_id                     = azurerm_subnet.myterraformsubnet.id
-        private_ip_address_allocation = "Static"
+        private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
     }
 
@@ -343,7 +352,10 @@ resource "tls_private_key" "example_ssh" {
   algorithm = "RSA"
   rsa_bits = 4096
 }
-output "tls_private_key" { value = tls_private_key.example_ssh.private_key_pem }
+output "tls_private_key" { 
+    value = tls_private_key.example_ssh.private_key_pem
+    sensitive = true 
+}
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {

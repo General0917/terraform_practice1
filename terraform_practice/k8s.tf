@@ -5,6 +5,7 @@ resource "azurerm_resource_group" "k8s" {
 }
 */
 
+/*
 resource "random_id" "log_analytics_workspace_name_suffix" {
     byte_length = 8
 }
@@ -59,16 +60,17 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         client_secret = var.client_secret
     }
 
-    addon_profile {
-        oms_agent {
-        enabled                    = true
-        log_analytics_workspace_id = azurerm_log_analytics_workspace.test.id
-        }
-    }
+    # addon_profile {
+    #     oms_agent {
+    #     enabled                    = true
+    #     log_analytics_workspace_id = azurerm_log_analytics_workspace.test.id
+    #     }
+    # }
 
     network_profile {
-    load_balancer_sku = "Standard"
-    network_plugin = "kubenet"
+        load_balancer_sku = "standard"
+        network_plugin = "kubenet"
     }
 
 }
+*/
